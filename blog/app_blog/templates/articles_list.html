@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+{% spaceless %}
+<h2>Публікації</h2> <br/>
+<div>
+<ol class="breadcrumb navbar-inverse">
+<li><a href="/">Головна</a></li>
+<li><a href="{% url 'articles-list' %}">Публікації</a></li>
+<li>{{ item.title|upper }}</li>
+</ol>
+<div class="article-category">
+    <h2>{% if category %} {{ category }} {% endif %}</h2>
+{% for item in items %}
+<div class="article-block">
+<a href="{{ item.get_absolute_url }}">
+<h4>{{ item.title }}</h4>
+</a>
+<h5>
+{{ item.pub_date|date:"j E Y"|safe|linebreaks }}
+</h5>
+<p>
+{{ item.description|safe|escape|striptags|truncatewords_html:32 }}
+</p>
+<div class="container-image">
+<img class="img" src="{{ item.images.all.0.image.url }}" alt="{{item.images.description}}"/>
+</div>
+<div class='clearfix'></div>
+</div>
+{% endfor %}
+{% endspaceless %}
+{% endblock %}

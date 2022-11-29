@@ -1,0 +1,30 @@
+{% extends "base.html" %}{% load static %}{% block content %}{% spaceless %}<h2>Категорії</h2>
+{% if categories %}
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+      <ul class="nav navbar-nav">
+{% for item in categories %}
+<li><a href="{{ item.get_absolute_url }}">
+<h4>{{ item.category }}</h4>
+</a></li>
+{% endfor %}
+          <li><a href="{% url 'articles-list' %}">
+<h4>Всі публікації</h4>
+</a></li></ul></div></nav>
+{% endif %}
+{% if articles %}
+{% for item in articles %}
+<div class="article-block">
+    <h5 class="category">{{item.category}}</h5>
+<a href="{{ item.get_absolute_url }}">
+<h4>{{ item.title }}</h4>
+</a>
+<h5>
+{{ item.pub_date|date:"j E Y"|safe|linebreaks }}
+</h5><p>
+{{ item.description|safe|escape|striptags|truncatewords_html:32 }}
+</p></div>
+{% endfor %}
+{% endif %}
+{% endspaceless %}
+{% endblock %}
